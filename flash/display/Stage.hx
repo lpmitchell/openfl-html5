@@ -594,7 +594,9 @@ class Stage extends Sprite {
 	
 	private function element_onTouch (event:js.html.TouchEvent):Void {
 		
-		event.preventDefault ();
+		// Disabling this line makes behaviour conform more closely cross-platform, but
+		// could cause side effects?
+		//event.preventDefault ();
 		
 		var rect;
 		
