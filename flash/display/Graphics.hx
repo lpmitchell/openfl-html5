@@ -438,6 +438,27 @@ class Graphics {
 						
 						case CurveTo (cx, cy, x, y):
 							
+							if (!setFill && bitmapFill != null) {
+								
+								if (pattern == null) {
+									
+									if (bitmapFill.__sourceImage != null) {
+										
+										pattern = __context.createPattern (bitmapFill.__sourceImage, bitmapRepeat ? "repeat" : "no-repeat");
+										
+									} else {
+										
+										pattern = __context.createPattern (bitmapFill.__sourceCanvas, bitmapRepeat ? "repeat" : "no-repeat");
+										
+									}
+									
+								}
+								
+								__context.fillStyle = pattern;
+								setFill = true;
+								
+							}
+							
 							__beginPath ();
 							__context.quadraticCurveTo (cx - offsetX, cy - offsetY, x - offsetX, y - offsetY);
 							__positionX = x;
@@ -705,6 +726,27 @@ class Graphics {
 							}
 						
 						case LineTo (x, y):
+							
+							if (!setFill && bitmapFill != null) {
+								
+								if (pattern == null) {
+									
+									if (bitmapFill.__sourceImage != null) {
+										
+										pattern = __context.createPattern (bitmapFill.__sourceImage, bitmapRepeat ? "repeat" : "no-repeat");
+										
+									} else {
+										
+										pattern = __context.createPattern (bitmapFill.__sourceCanvas, bitmapRepeat ? "repeat" : "no-repeat");
+										
+									}
+									
+								}
+								
+								__context.fillStyle = pattern;
+								setFill = true;
+								
+							}
 							
 							__beginPath ();
 							__context.lineTo (x - offsetX, y - offsetY);
