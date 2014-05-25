@@ -35,6 +35,7 @@ class Graphics {
 	private var __positionX:Float;
 	private var __positionY:Float;
 	private var __visible:Bool;
+	private var __pendingMatrix:Matrix;
 	
 	
 	public function new () {
@@ -269,7 +270,21 @@ class Graphics {
 			
 			if (__hasFill) {
 				
-				__context.fill ();
+				if (__pendingMatrix != null) {
+					// Push then pop our pending matrix to the context:
+					
+					__context.transform(__pendingMatrix.a, __pendingMatrix.b, __pendingMatrix.c, __pendingMatrix.d, __pendingMatrix.tx, __pendingMatrix.ty);
+					
+					__context.fill ();
+					
+					var __inverseMatrix:Matrix = __pendingMatrix.invert();
+					__context.transform(__inverseMatrix.a, __inverseMatrix.b, __inverseMatrix.c, __inverseMatrix.d, __inverseMatrix.tx, __inverseMatrix.ty);
+					
+				} else {
+					
+					__context.fill ();
+					
+				}
 				
 			}
 			
@@ -289,6 +304,7 @@ class Graphics {
 			
 			__hasFill = false;
 			__hasStroke = false;
+			__pendingMatrix = null;
 			
 		}
 		
@@ -412,6 +428,7 @@ class Graphics {
 							}
 							
 							bitmapMatrix = matrix;
+							__pendingMatrix = matrix;
 							__hasFill = true;
 						
 						case BeginFill (rgb, alpha):
